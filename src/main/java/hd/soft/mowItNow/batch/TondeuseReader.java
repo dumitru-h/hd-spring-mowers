@@ -2,10 +2,7 @@ package hd.soft.mowItNow.batch;
 
 import hd.soft.mowItNow.Position;
 import hd.soft.mowItNow.Tondeuse;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemStream;
-import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.PassThroughFieldSetMapper;
@@ -15,7 +12,7 @@ import org.springframework.core.io.Resource;
 
 import static hd.soft.mowItNow.Position.pos;
 
-public class TondeuseReader implements ItemReader<Tondeuse>, ItemStream {
+public class TondeuseReader implements ItemStreamReader<Tondeuse> {
 
 	private FlatFileItemReader<FieldSet> delegate =new FlatFileItemReaderBuilder<FieldSet>().name("delegateItemReader")
 			.lineTokenizer(new DelimitedLineTokenizer(String.valueOf(' ')))

@@ -2,12 +2,14 @@ package hd.soft.mowItNow;
 
 import hd.soft.mowItNow.batch.BatchConfiguration;
 import org.junit.jupiter.api.Test;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.*;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +26,10 @@ public class JobStepTest {
 	public void testJob(@Autowired Job job) throws Exception {
 		jobLauncherTestUtils.setJob(job);
 
-		JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+		JobParametersBuilder paramsBuilder = new JobParametersBuilder();
+		paramsBuilder.addString("inputFile", "src/test/resources/input.txt");
+
+		JobExecution jobExecution = jobLauncherTestUtils.launchJob(paramsBuilder.toJobParameters());
 
 		assertEquals("COMPLETED", jobExecution.getExitStatus().getExitCode());
 	}

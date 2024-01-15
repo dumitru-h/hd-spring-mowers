@@ -4,15 +4,20 @@ import hd.soft.mowItNow.Position;
 import hd.soft.mowItNow.Tondeuse;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -35,15 +40,16 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
 	}
 
 	@Bean
-	public ItemReader<Tondeuse> itemReader() {
-		// with injected param (@Value("#{jobParameters[inputFile]}") Resource resource
-		return new TondeuseReader();
+	@StepScope
+	public ItemStreamReader<Tondeuse> itemReader(@Value("#{jobParameters['inputFile']}") String inputFile) {
+		TondeuseReader tondeuseReader = new TondeuseReader();
+		tondeuseReader.setResource(new FileSystemResource(inputFile));
+		return tondeuseReader;
 	}
 
 
 	@Bean
 	public ItemWriter<Position> itemWriter() {
-		// with injected param (@Value("#{jobParameters[inputFile]}") Resource resource
 		return new ItemWriter<Position>() {
 			@Override
 			public void write(Chunk<? extends Position> chunk) throws Exception {
