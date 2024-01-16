@@ -52,7 +52,7 @@ public class Position {
 			case 'W':
 				return pos(x - 1, y, direction);
 			default:
-				log.warn("invalid direction: "+ direction);
+				log.warn("invalid direction: " + direction);
 		}
 
 		return this;
@@ -78,7 +78,7 @@ public class Position {
 			case 'W':
 				return pos(x, y, 'S');
 			default:
-				log.warn("invalid direction: "+ direction);
+				log.warn("invalid direction: " + direction);
 		}
 
 		return this;
@@ -95,7 +95,7 @@ public class Position {
 			case 'W':
 				return pos(x, y, 'N');
 			default:
-				log.warn("invalid direction: "+ direction);
+				log.warn("invalid direction: " + direction);
 		}
 
 		return this;

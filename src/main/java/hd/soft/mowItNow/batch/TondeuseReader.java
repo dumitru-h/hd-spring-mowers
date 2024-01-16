@@ -2,7 +2,9 @@ package hd.soft.mowItNow.batch;
 
 import hd.soft.mowItNow.Position;
 import hd.soft.mowItNow.Tondeuse;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.PassThroughFieldSetMapper;
@@ -14,10 +16,10 @@ import static hd.soft.mowItNow.Position.pos;
 
 public class TondeuseReader implements ItemStreamReader<Tondeuse> {
 
-	private FlatFileItemReader<FieldSet> delegate =new FlatFileItemReaderBuilder<FieldSet>().name("delegateItemReader")
+	private FlatFileItemReader<FieldSet> delegate = new FlatFileItemReaderBuilder<FieldSet>().name("delegateItemReader")
 			.lineTokenizer(new DelimitedLineTokenizer(String.valueOf(' ')))
 			.fieldSetMapper(new PassThroughFieldSetMapper())
-			.build();;
+			.build();
 
 	private int maxX, maxY;
 
@@ -28,14 +30,14 @@ public class TondeuseReader implements ItemStreamReader<Tondeuse> {
 	@Override
 	public Tondeuse read() throws Exception {
 		FieldSet line1 = this.delegate.read();
-		FieldSet line2= this.delegate.read();
+		FieldSet line2 = this.delegate.read();
 
-		if (line1 != null && line2!=null) {
+		if (line1 != null && line2 != null) {
 			final Position initialPosition = pos(
 					line1.readInt(0),
 					line1.readInt(1),
 					line1.readChar(2)
-					);
+			);
 			final String program = line2.readString(0);
 
 			return new Tondeuse(initialPosition, maxX, maxY, program);
