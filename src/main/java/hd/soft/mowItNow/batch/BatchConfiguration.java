@@ -27,6 +27,8 @@ import static java.lang.System.out;
 
 @Configuration
 public class BatchConfiguration extends DefaultBatchConfiguration {
+	public static final String BATCH_PARAM_FILE = "inputFile";
+	public static final String BATCH_OUTPUT_FILE = "outputFile";
 
 	@Bean
 	public DataSource dataSource() {
@@ -50,7 +52,8 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
 
 
 	@Bean
-	public ItemWriter<Position> itemWriter() {
+	@StepScope
+	public ItemWriter<Position> itemWriter(@Value("#{jobParameters['outputFile']}") String outputFile) {
 		return new ItemWriter<Position>() {
 			@Override
 			public void write(Chunk<? extends Position> chunk) throws Exception {
@@ -66,7 +69,7 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
 	protected Step step1(JobRepository jobRepository, PlatformTransactionManager transactionManager,
 						 ItemReader<Tondeuse> reader,
 						 ItemWriter<Position> writer) {
-		return new StepBuilder("step1", jobRepository)
+		return new StepBuilder("run 1 mower at a time", jobRepository)
 				.<Tondeuse, Position>chunk(1, transactionManager)
 				.reader(reader)
 				.processor(t -> t.execute())

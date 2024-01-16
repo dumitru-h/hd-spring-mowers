@@ -1,6 +1,5 @@
 package hd.soft.mowItNow;
 
-import hd.soft.mowItNow.batch.TondeuseReader;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamReader;
@@ -8,8 +7,6 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,13 +20,11 @@ public class TestReader {
 	@Qualifier("testReader")
 	ItemStreamReader<Tondeuse> reader;
 
-	private final Resource testResource = new FileSystemResource("src/test/resources/input.txt");
 
 	@Test
 	public void testReader() throws Exception {
-		TondeuseReader itemReader = (TondeuseReader) reader;
-		itemReader.setResource(testResource);
-		itemReader.open(new ExecutionContext());
+
+		reader.open(new ExecutionContext());
 
 		assertEquals(
 				new Tondeuse(Position.pos(1, 2, 'N'), 5, 5, "GAGAGAGAA"),
@@ -41,7 +36,7 @@ public class TestReader {
 				reader.read()
 		);
 
-		itemReader.close();
+		reader.close();
 	}
 
 }

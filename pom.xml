@@ -17,6 +17,8 @@
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
+
+		<exec.mainClass>hd.soft.mowItNow.SpringBatchMowersApplication</exec.mainClass>  <!-- for maven exec plugin -->
 	</properties>
 
 	<dependencies>
