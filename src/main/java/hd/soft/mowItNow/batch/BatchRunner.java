@@ -1,7 +1,10 @@
-package hd.soft.mowItNow;
+package hd.soft.mowItNow.batch;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.*;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -41,6 +44,8 @@ public class BatchRunner implements CommandLineRunner {
 
 			if (appArgs.containsOption(BATCH_OUTPUT_FILE)) {
 				paramsBuilder.addString(BATCH_OUTPUT_FILE, appArgs.getOptionValues(BATCH_OUTPUT_FILE).get(0));
+			} else {
+				log.info("--fileOutput parameter  xwas not specified. Will output to stdout");
 			}
 
 			JobExecution execution = jobLauncher.run(job, paramsBuilder.toJobParameters());

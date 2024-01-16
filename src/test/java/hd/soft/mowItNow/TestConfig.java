@@ -3,12 +3,10 @@ package hd.soft.mowItNow;
 import hd.soft.mowItNow.batch.TondeuseReader;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
@@ -34,8 +32,8 @@ public class TestConfig {
 
 	@Bean
 	@Scope("prototype")
-	public ItemWriter<Position> itemWriter() {
-		return new ItemWriter<Position>() {
+	public ItemStreamWriter<Position> itemWriter() {
+		return new ItemStreamWriter<Position>() {
 			@Override
 			public void write(Chunk<? extends Position> chunk) throws Exception {
 				chunk.getItems().forEach(position -> {

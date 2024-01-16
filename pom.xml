@@ -11,8 +11,10 @@
 	<groupId>hd.soft</groupId>
 	<artifactId>sb-les-tondeuses</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>sb-les-tondeuses</name>
 	<description>Demo project for Spring Boot</description>
+
+	<packaging>jar</packaging>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
@@ -54,6 +56,13 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -79,8 +88,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
