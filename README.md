@@ -17,3 +17,9 @@
 Package to JAR then run:
 
     java -jar target/sb-les-tondeuses-0.0.1-SNAPSHOT.jar --inputFile=src/test/resources/input.txt
+
+# package the app to a Docker image
+    docker build -t the-spring-mowers:latest .
+
+# Run the Docker image you just created
+    docker run the-spring-mowers:latest
